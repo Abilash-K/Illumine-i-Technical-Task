@@ -1,0 +1,6 @@
+.customerForms-container{
+    display: flex;
+}
+.form-items{
+    padding: 1rem;
+}

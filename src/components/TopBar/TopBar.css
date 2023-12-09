@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    background-color: aqua;
+    justify-content: space-between;
+    align-items: center;
+    /* flex-wrap: wrap; */
+}
+.header-text{
+    font-size: 1.35rem;
+}
+.container-items{
+    padding: 0.5rem;
+}
