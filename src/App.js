@@ -1,14 +1,12 @@
-import React from 'react'
-import TopBar from './components/TopBar/TopBar'
-import CustomerForms from './components/CustomerForms/CustomerForms'
+import React from "react";
+import HomeScreen from "./screens/HomeScreen";
 
 const App = () => {
   return (
-    <div>
-      <TopBar/>
-      <CustomerForms/>
-    </div>
-  )
-}
+    <>
+      <HomeScreen />
+    </>
+  );
+};
 
-export default App
+export default App;
