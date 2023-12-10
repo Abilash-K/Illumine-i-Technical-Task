@@ -3,6 +3,7 @@ import TopBar from "../components/TopBar/TopBar";
 import CustomerForms from "../components/CustomerForms/CustomerForms";
 import { db } from "../config/Firebase";
 import { getDocs, collection } from "firebase/firestore";
+import Footer from "../components/Footer/Footer";
 
 const HomeScreen = () => {
   const [formFieldsData, setFormFieldsData] = useState([]);
@@ -27,6 +28,7 @@ const HomeScreen = () => {
     <div>
       <TopBar />
       <CustomerForms fields={formFieldsData} />
+      <Footer />
     </div>
   );
 };
