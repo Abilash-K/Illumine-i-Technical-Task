@@ -1,38 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styles } from "./FooterStyles";
 import { Button } from "@mui/material";
 import { Save } from "@mui/icons-material";
 
-const Footer = () => {
+const Footer = ({ saveData }) => {
+  const [date, setDate] = useState("");
+  useEffect(() => {
+    const currentDate = new Date().toLocaleDateString() + "";
+    setDate(currentDate);
+  }, []);
   return (
     <div style={styles.container}>
       <div style={styles.containerItems}>
-        <Button
-          sx={{ borderRadius: "12px", backgroundColor: "#F57170" }}
-          style={{ marginRight: "0.25rem" }}
-          size="Large"
-          variant="contained"
-          startIcon={<Save />}
-        >
-          Reset
-        </Button>
-        <Button
-          sx={{ borderRadius: "12px", backgroundColor: "white" }}
-          size="Large"
-          variant="outlined"
-          startIcon={<Save />}
-          color="error"
-        >
-          Cancel
-        </Button>
+        <p>Date : {date} </p>
       </div>
       <div style={styles.containerItems}>
         <Button
-          sx={{ borderRadius: "12px" }}
+          sx={{
+            borderRadius: "12px",
+            marginRight: "1rem",
+            width: "150px",
+            height: "50px",
+          }}
           size="Large"
           variant="contained"
           color="success"
           startIcon={<Save />}
+          onClick={saveData}
         >
           Save
         </Button>

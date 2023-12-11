@@ -1,7 +1,7 @@
 export const styles = {
   container: {
     display: "flex",
-    backgroundColor: "#A9A9A9",
+    backgroundColor: "#eee",
     justifyContent: "space-between",
     alignItems: "center",
     position: "fixed",

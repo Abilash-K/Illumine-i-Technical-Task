@@ -8,9 +8,10 @@ import {
   TextField,
   FormControlLabel,
   Switch,
+  Checkbox,
 } from "@mui/material";
 
-const CustomerForms = ({ fields }) => {
+const CustomerForms = ({ fields, handleFormData }) => {
   const [currentData, setCurrentData] = useState({});
   const [selectedValue, setSelectedValue] = useState({});
   const [date, setDate] = useState("");
@@ -29,19 +30,46 @@ const CustomerForms = ({ fields }) => {
       ...prev,
       [name]: value,
     }));
+
+    handleFormData(currentData);
   };
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setCurrentData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    let { name, value } = e.target;
+    if (name === "Amount" || name === "Unit Number") {
+      let updatedValue = value.replace(/\D/g, "");
+      setCurrentData((prev) => ({
+        ...prev,
+        [name]: updatedValue,
+      }));
+      handleFormData(currentData);
+    } else {
+      setCurrentData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+      handleFormData(currentData);
+    }
+  };
+  const handleCheckBox = (e) => {
+    let { name, checked } = e.target;
+    if (name === "Active") {
+      setCurrentData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+      handleFormData(currentData);
+    }
   };
 
-  const test = () => {
-    console.log(currentData);
+  const inputFieldType = (fieldName) => {
+    if (fieldName === "Size" || fieldName === "UOM") {
+      return "number";
+    }
+    if (fieldName === "Amount" || fieldName === "Unit Number") {
+      return "text";
+    }
+    return "text";
   };
-
   return (
     <div style={styles.customerForms}>
       {fields.map((e, i) => {
@@ -81,7 +109,18 @@ const CustomerForms = ({ fields }) => {
                   style={formStyles(i)}
                   name={e.name}
                   label={e.name}
+                  multiline={e.name === "Remarks" ? true : false}
+                  rows={4}
+                  type={inputFieldType(e.name)}
                   onChange={handleInputChange}
+                  value={currentData[e.name] || ""}
+                  inputProps={
+                    e.name === "Amount"
+                      ? {
+                          maxLength: 10,
+                        }
+                      : {}
+                  }
                 ></TextField>
               </FormControl>
             </div>
@@ -92,7 +131,13 @@ const CustomerForms = ({ fields }) => {
               <FormControlLabel
                 name={e.name}
                 required
-                control={<Switch />}
+                control={
+                  <Checkbox
+                    checked={currentData[e.name] || false}
+                    onChange={handleCheckBox}
+                    inputProps={{ "aria-label": "controlled" }}
+                  />
+                }
                 label={e.name}
               />
             </div>
@@ -114,7 +159,6 @@ const CustomerForms = ({ fields }) => {
         }
         return null;
       })}
-      <button onClick={test}>Submit</button>
     </div>
   );
 };
