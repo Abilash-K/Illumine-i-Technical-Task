@@ -4,7 +4,7 @@ import Loading from "./components/Loading/Loading.js";
 
 const HomeScreen = lazy(
   () =>
-    // Simulate a delay of 2 seconds before loading the component
+    // Simulate a delay of 6 seconds before loading the component
     new Promise((resolve) =>
       setTimeout(() => resolve(import("./screens/HomeScreen.js")), 2000)
     )

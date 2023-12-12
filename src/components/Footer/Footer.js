@@ -4,11 +4,16 @@ import { Button } from "@mui/material";
 import { Save } from "@mui/icons-material";
 
 const Footer = ({ saveData }) => {
+    // State hook to manage the current date
   const [date, setDate] = useState("");
+
+    // useEffect to set the current date when the component mounts
   useEffect(() => {
     const currentDate = new Date().toLocaleDateString() + "";
     setDate(currentDate);
   }, []);
+
+    // Container for the footer with defined styles
   return (
     <div style={styles.container}>
       <div style={styles.containerItems}>

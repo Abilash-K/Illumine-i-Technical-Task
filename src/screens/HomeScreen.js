@@ -7,6 +7,7 @@ import Footer from "../components/Footer/Footer";
 import { Snackbar } from "@mui/material";
 
 const HomeScreen = () => {
+   // State variables for managing form data and toast messages
   const [formFieldsData, setFormFieldsData] = useState([]);
   const [toastMsg, setToastMsg] = useState({
     showError: false,
@@ -15,8 +16,12 @@ const HomeScreen = () => {
   const [active, setActive] = useState(false);
   const [details, setDetails] = useState({});
   const [saveToast, setSaveToast] = useState(false);
+
+    // Firestore collections
   const getDb = collection(db, "formData");
   const detailsDb = collection(db, "enquiryDetails");
+
+    // Fetch form data from Firestore
   const getData = async () => {
     try {
       const data = await getDocs(getDb);
@@ -29,12 +34,16 @@ const HomeScreen = () => {
       console.error(err);
     }
   };
+
+  // Handlers for form data and active status
   const handleFormData = (data) => {
     setDetails(data);
   };
   const handleActiveStatus = (data) => {
     setActive(data);
   };
+
+    // Function to submit data to Firestore
   const submitData = async () => {
     try {
       await addDoc(detailsDb, {
@@ -44,6 +53,14 @@ const HomeScreen = () => {
       console.error(err);
     }
   };
+
+  const resetFormData = () => {
+    setDetails({}); // Resetting details to an empty object
+    setActive(false); // Resetting active state if needed
+    // Reset any other state as required
+  };
+
+    // Validate form details before submission
   const validateDetails = () => {
     const requiredFields = ["Customer Name", "Unit Number"];
     const missingFields = [];
@@ -60,6 +77,7 @@ const HomeScreen = () => {
       if (active) {
         submitData();
         setSaveToast(true);
+        resetFormData()
       }
     } else {
       setToastMsg({
@@ -69,6 +87,8 @@ const HomeScreen = () => {
     }
     console.log(toastMsg);
   };
+
+    // Handlers for toast messages
   const handleSave = () => {
     setSaveToast(false);
   };
@@ -81,10 +101,17 @@ const HomeScreen = () => {
       showError: false,
     });
   };
+
+    // Fetch form data when the component mounts
   useEffect(() => {
     getData();
   }, []);
 
+
+
+
+
+    // Render components: TopBar, CustomerForms, Footer, and Snackbar for notifications
   return (
     <div>
       <TopBar headerMessage={active} />

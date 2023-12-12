@@ -10,15 +10,20 @@ import {
   Checkbox,
 } from "@mui/material";
 
-const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
+const CustomerForms = ({ fields, handleFormData, handleActiveStatus, }) => {
+   // State hooks to manage form data and selected values
   const [currentData, setCurrentData] = useState({});
-  const [selectedValue, setSelectedValue] = useState({});
+  const [selectedValue, setSelectedValue] = useState({    "Payment Type" : "Not Applicable",
+  "Agent" : ""});
   const [date, setDate] = useState("");
+
+   // useEffect to set the current date when the component mounts
   useEffect(() => {
     const currentDate = new Date().toLocaleDateString() + "";
     setDate(currentDate);
   }, []);
 
+  // Handler for select input changes
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
     setSelectedValue((prevSelectValues) => ({
@@ -32,6 +37,8 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
 
     handleFormData(currentData);
   };
+
+  // Handler for text input changes
   const handleInputChange = (e) => {
     let { name, value } = e.target;
     if (name === "Amount" || name === "Unit Number") {
@@ -49,6 +56,8 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
       handleFormData(currentData);
     }
   };
+
+  // Handler for checkbox changes
   const handleCheckBox = (e) => {
     let { name, checked } = e.target;
     if (name === "Active") {
@@ -60,6 +69,7 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
     }
   };
 
+   // Determines the input type based on field name
   const inputFieldType = (fieldName) => {
     if (fieldName === "Size" || fieldName === "UOM") {
       return "number";
@@ -70,6 +80,8 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
 
     return "text";
   };
+
+   // Checks if payment type needs to be disabled based on certain conditions
   const paymentHandle = (fieldName) => {
     if (fieldName === "Payment Type") {
       if (!currentData["Amount"] || currentData["Amount"] === "") {
@@ -80,6 +92,7 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
     }
     return false;
   };
+      // Rendering the form elements based on the provided 'fields' prop
   return (
     <div style={styles.customerForms}>
       {fields.map((e, i) => {
