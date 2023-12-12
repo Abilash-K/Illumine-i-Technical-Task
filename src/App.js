@@ -1,10 +1,20 @@
-import React from "react";
-import HomeScreen from "./screens/HomeScreen";
+import React, { Suspense, lazy } from "react";
+import Loading from "./components/Loading/Loading.js";
+// import HomeScreen from "./screens/HomeScreen";
 
+const HomeScreen = lazy(
+  () =>
+    // Simulate a delay of 2 seconds before loading the component
+    new Promise((resolve) =>
+      setTimeout(() => resolve(import("./screens/HomeScreen.js")), 2000)
+    )
+);
 const App = () => {
   return (
     <>
-      <HomeScreen />
+      <Suspense fallback={<Loading />}>
+        <HomeScreen />
+      </Suspense>
     </>
   );
 };

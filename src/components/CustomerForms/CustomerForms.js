@@ -7,11 +7,10 @@ import {
   FormControl,
   TextField,
   FormControlLabel,
-  Switch,
   Checkbox,
 } from "@mui/material";
 
-const CustomerForms = ({ fields, handleFormData }) => {
+const CustomerForms = ({ fields, handleFormData, handleActiveStatus }) => {
   const [currentData, setCurrentData] = useState({});
   const [selectedValue, setSelectedValue] = useState({});
   const [date, setDate] = useState("");
@@ -57,7 +56,7 @@ const CustomerForms = ({ fields, handleFormData }) => {
         ...prev,
         [name]: checked,
       }));
-      handleFormData(currentData);
+      handleActiveStatus(checked);
     }
   };
 
@@ -68,7 +67,18 @@ const CustomerForms = ({ fields, handleFormData }) => {
     if (fieldName === "Amount" || fieldName === "Unit Number") {
       return "text";
     }
+
     return "text";
+  };
+  const paymentHandle = (fieldName) => {
+    if (fieldName === "Payment Type") {
+      if (!currentData["Amount"] || currentData["Amount"] === "") {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return false;
   };
   return (
     <div style={styles.customerForms}>
@@ -86,6 +96,7 @@ const CustomerForms = ({ fields, handleFormData }) => {
                   onChange={handleSelectChange}
                   value={selectValue}
                   name={e.name}
+                  disabled={paymentHandle(e.name)}
                   required
                 >
                   {Array.isArray(e.options) && e.options.length > 0 ? (

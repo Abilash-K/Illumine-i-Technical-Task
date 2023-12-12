@@ -14,7 +14,9 @@ const HomeScreen = () => {
   });
   const [active, setActive] = useState(false);
   const [details, setDetails] = useState({});
+  const [saveToast, setSaveToast] = useState(false);
   const getDb = collection(db, "formData");
+  const detailsDb = collection(db, "enquiryDetails");
   const getData = async () => {
     try {
       const data = await getDocs(getDb);
@@ -30,6 +32,18 @@ const HomeScreen = () => {
   const handleFormData = (data) => {
     setDetails(data);
   };
+  const handleActiveStatus = (data) => {
+    setActive(data);
+  };
+  const submitData = async () => {
+    try {
+      await addDoc(detailsDb, {
+        details,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const validateDetails = () => {
     const requiredFields = ["Customer Name", "Unit Number"];
     const missingFields = [];
@@ -43,6 +57,10 @@ const HomeScreen = () => {
         ...prev,
         showError: false,
       }));
+      if (active) {
+        submitData();
+        setSaveToast(true);
+      }
     } else {
       setToastMsg({
         showError: true,
@@ -50,6 +68,9 @@ const HomeScreen = () => {
       });
     }
     console.log(toastMsg);
+  };
+  const handleSave = () => {
+    setSaveToast(false);
   };
   const handleToast = (event, reason) => {
     if (reason === "clickaway") {
@@ -67,13 +88,23 @@ const HomeScreen = () => {
   return (
     <div>
       <TopBar headerMessage={active} />
-      <CustomerForms fields={formFieldsData} handleFormData={handleFormData} />
+      <CustomerForms
+        fields={formFieldsData}
+        handleFormData={handleFormData}
+        handleActiveStatus={handleActiveStatus}
+      />
       <Footer saveData={validateDetails} />
       <Snackbar
         autoHideDuration={6000}
         open={toastMsg.showError}
         onClose={handleToast}
         message={`Please fill ${toastMsg.missingFields}`}
+      />
+      <Snackbar
+        autoHideDuration={6000}
+        message="Save Successful"
+        open={saveToast}
+        onClose={handleSave}
       />
     </div>
   );
