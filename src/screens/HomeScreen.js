@@ -14,7 +14,8 @@ const HomeScreen = () => {
     missingFields: [],
   });
   const [active, setActive] = useState(false);
-  const [details, setDetails] = useState({});
+  const [details, setDetails] = useState({    "Payment Type" : "Not Applicable",
+  "Agent" : "Not Applicable"});
   const [saveToast, setSaveToast] = useState(false);
 
     // Firestore collections
@@ -35,13 +36,40 @@ const HomeScreen = () => {
     }
   };
 
-  // Handlers for form data and active status
-  const handleFormData = (data) => {
-    setDetails(data);
+  const handleFormData = (e) => {
+    const { name, value } = e.target;
+    setDetails((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-  const handleActiveStatus = (data) => {
-    setActive(data);
-  };
+
+  const handleInputData=(e)=>{
+    let { name, value } = e.target;
+    if (name === "Amount" || name === "Unit Number") {
+      let updatedValue = value.replace(/\D/g, "");
+      setDetails((prev) => ({
+        ...prev,
+        [name]: updatedValue,
+      }));
+    } else {
+      setDetails((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  }
+
+  const handleCheckBoxData = (e)=>{
+    let { name, checked } = e.target;
+    if (name === "Active") {
+      setDetails((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+      setActive(checked);
+  }
+}
 
     // Function to submit data to Firestore
   const submitData = async () => {
@@ -85,7 +113,6 @@ const HomeScreen = () => {
         missingFields: missingFields,
       });
     }
-    console.log(toastMsg);
   };
 
     // Handlers for toast messages
@@ -118,7 +145,9 @@ const HomeScreen = () => {
       <CustomerForms
         fields={formFieldsData}
         handleFormData={handleFormData}
-        handleActiveStatus={handleActiveStatus}
+        handleInput={handleInputData}
+        handleCheckBoxData={handleCheckBoxData}
+        currentData={details}
       />
       <Footer saveData={validateDetails} />
       <Snackbar

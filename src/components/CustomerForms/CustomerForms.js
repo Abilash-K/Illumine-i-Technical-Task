@@ -10,11 +10,8 @@ import {
   Checkbox,
 } from "@mui/material";
 
-const CustomerForms = ({ fields, handleFormData, handleActiveStatus, }) => {
+const CustomerForms = ({ handleCheckBoxData,fields, handleFormData, handleActiveStatus, currentData, handleInput }) => {
    // State hooks to manage form data and selected values
-  const [currentData, setCurrentData] = useState({});
-  const [selectedValue, setSelectedValue] = useState({    "Payment Type" : "Not Applicable",
-  "Agent" : ""});
   const [date, setDate] = useState("");
 
    // useEffect to set the current date when the component mounts
@@ -25,49 +22,18 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus, }) => {
 
   // Handler for select input changes
   const handleSelectChange = (e) => {
-    const { name, value } = e.target;
-    setSelectedValue((prevSelectValues) => ({
-      ...prevSelectValues,
-      [name]: value,
-    }));
-    setCurrentData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    handleFormData(currentData);
+    handleInput(e);
   };
 
   // Handler for text input changes
   const handleInputChange = (e) => {
-    let { name, value } = e.target;
-    if (name === "Amount" || name === "Unit Number") {
-      let updatedValue = value.replace(/\D/g, "");
-      setCurrentData((prev) => ({
-        ...prev,
-        [name]: updatedValue,
-      }));
-      handleFormData(currentData);
-    } else {
-      setCurrentData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-      handleFormData(currentData);
-    }
+    handleInput(e)
   };
 
   // Handler for checkbox changes
   const handleCheckBox = (e) => {
-    let { name, checked } = e.target;
-    if (name === "Active") {
-      setCurrentData((prev) => ({
-        ...prev,
-        [name]: checked,
-      }));
-      handleActiveStatus(checked);
+    handleCheckBoxData(e)
     }
-  };
 
    // Determines the input type based on field name
   const inputFieldType = (fieldName) => {
@@ -83,6 +49,13 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus, }) => {
 
    // Checks if payment type needs to be disabled based on certain conditions
   const paymentHandle = (fieldName) => {
+    if(fieldName==="Agent"){
+      if(currentData["Yard"]==="HK" && currentData["Customer Name"]==="JACK" ){
+        return true
+      }else{
+        return false
+      }
+    }
     if (fieldName === "Payment Type") {
       if (!currentData["Amount"] || currentData["Amount"] === "") {
         return true;
@@ -97,7 +70,7 @@ const CustomerForms = ({ fields, handleFormData, handleActiveStatus, }) => {
     <div style={styles.customerForms}>
       {fields.map((e, i) => {
         if (e.type === "select") {
-          const selectValue = selectedValue[e.name] || "";
+          const selectValue = currentData[e.name] || "";
           return (
             <div style={styles.formElement} key={i}>
               <FormControl fullWidth>
