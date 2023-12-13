@@ -26,8 +26,8 @@ export const formStyles = (index) => {
   }
   if (index === 16) {
     return {
-      width: "100vh",
-      height: "35.5vh",
+      width: "60%",
+      height: "20rem",
     };
   }
 };
