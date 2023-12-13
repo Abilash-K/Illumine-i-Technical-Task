@@ -10,7 +10,9 @@ const TopBar = ({ headerMessage }) => {
       </div>
       <div style={styles.containerItems}>
         <p style={styles.headerText}>
-          {!headerMessage ? "Please activate the status" : "Header Information"}
+          {!headerMessage
+            ? "Warning : Please activate the status"
+            : "Header Information"}
         </p>
       </div>
     </div>

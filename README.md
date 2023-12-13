@@ -1,9 +1,11 @@
 # Project Overview
 
 ## Description
-This project is a React application designed for [purpose]. It utilizes Firebase for data storage and Material-UI for UI components.
+
+This project is a React application designed for a Form. It utilizes Firebase for data storage and Material-UI for UI components.
 
 ## Installation
+
 To run the project, follow these steps:
 
 1. Clone the repository.
@@ -17,21 +19,25 @@ To run the project, follow these steps:
 ## 1. TopBar Component
 
 ### Description
+
 The `TopBar` component displays a header with an icon and header text.
 
 **File:** `TopBar.js`
 
 **Props:**
+
 - `headerMessage`: Boolean value for header information.
 
 ## 2. CustomerForms Component
 
 ### Description
+
 The `CustomerForms` component renders a form with various input fields for customer information.
 
 **File:** `CustomerForms.js`
 
 **Props:**
+
 - `fields`: Array of form fields.
 - `handleFormData`: Function to handle form data changes.
 - `handleActiveStatus`: Function to manage active status.
@@ -39,21 +45,25 @@ The `CustomerForms` component renders a form with various input fields for custo
 ## 3. Footer Component
 
 ### Description
+
 The `Footer` component contains the date display and a save button.
 
 **File:** `Footer.js`
 
 **Props:**
+
 - `saveData`: Function to trigger data validation before saving.
 
 ## 4. HomeScreen Component
 
 ### Description
+
 The `HomeScreen` component integrates the `TopBar`, `CustomerForms`, and `Footer` components. It manages data retrieval from Firebase, form data handling, validation, and displaying notifications.
 
 **File:** `HomeScreen.js`
 
 **Functionality:**
+
 - Fetches form data from Firebase.
 - Manages form data and active status.
 - Validates form details before submission.
@@ -62,6 +72,7 @@ The `HomeScreen` component integrates the `TopBar`, `CustomerForms`, and `Footer
 # Firebase Integration
 
 ## Description
+
 This section handles the integration with Firebase for storing and retrieving form data.
 
 **File:** `Firebase.js`
@@ -73,13 +84,88 @@ This section handles the integration with Firebase for storing and retrieving fo
 
 # Usage
 
-Explain how to use these components within your application, including any necessary props and data structures.
+### Yard Field
 
-# Conclusion
+- **Field Type:** Dropdown
+- **Options:** HK, AU, OT
 
-Summarize the functionalities and purpose of the application. Provide any additional notes or instructions for users or developers.
+### Customer Name
 
-***
+- **Field Type:** Required Input Field
+- **Options:** JACK, SAMSON, JOHN
+
+### Agent Field based on Yard and Customer Name
+
+- **Condition:** If Yard is 'HK' and Customer Name is 'JACK'
+- **Field Type:** Read-only
+- **Value:** Predefined value 'Not Applicable'
+
+### Unit Number
+
+- **Field Type:** Numeric Field
+- **Required Field**
+
+### Usage Field
+
+- **Field Type:** Alphanumeric Field
+
+### Type Field
+
+- **Field Type:** Alphanumeric Field
+
+### Size Field
+
+- **Field Type:** Numeric Field
+
+### Estimate Date Field
+
+- **Field Type:** Date Field
+- **Display Format:** DD/MM/YYYY
+- **Validation:** Cannot be less than the current date
+
+### Unit Number Validation
+
+- **Field Type:** Required Field
+- **Restriction:** Must not allow special characters
+
+### UOM Field
+
+- **Field Type:** Numeric Field
+
+### Bill To Field
+
+- **Options:** JACK, SAMSON, JOHN
+
+### Lessee Field
+
+- **Options:** MAERSK, CMACGM, MSI
+
+### Agent Field
+
+- **Options:** Agent 1, Agent 2, Agent 3
+
+### Active Field
+
+- **Field Type:** Checkbox
+- **Warning:** If Active is false, display a warning message in the header section
+
+### Amount Field
+
+- **Field Type:** Decimal Field
+- **Validation:** Allow maximum 10 characters
+
+### Payment Type Field based on Amount
+
+- **Condition:** If Amount is empty, Payment Type field should not be displayed
+- **Field Type:** Dropdown
+- **Options:** Cash, Online
+
+### Save Button Behavior
+
+- **On Click:** Display error message in a Toast if any validation fails
+- **On Success:** Display success message in a Toast
+
+---
 
 # Getting Started with Create React App
 
